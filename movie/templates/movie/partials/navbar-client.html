@@ -1,0 +1,54 @@
+{% load static %}
+{% include "movie/partials/styles.html" %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Peliculas</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Por Actor
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% for actor in actors %}
+                <li><a class="dropdown-item" href="{% url 'movie:movies_by_actor' actor.id %}">{{ actor.name }}, {{actor.last_name}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Por Género
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% for genre in genres %}
+                <li><a class="dropdown-item" href="{% url 'movie:movies_by_genre' genre.id %}">{{ genre.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="btn btn-success" href="{% url 'movie:dashboard' %}" >Dashboard</a>
+            </li>
+          {% endif %}
+        </ul>
+        <form class="d-flex" method="GET" action="{% url 'movie:search_list_view' %}" style="width:500px">
+          <input class="form-control me-2" type="search" name="q" placeholder="Buscar pelicula por nombre, actor o genero" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+
+        {% if user.is_authenticated %}
+        <div class="d-flex mb-3 pl-5">
+          <span class ="mt-2"> {{ user.username }} </span>
+          <a class="btn btn-light" href="{% url 'movie:logout' %}">Cerrar sesion</a>
+        </div>
+        {% else %}
+        <div class="d-flex mb-3 pl-5">
+          <a class="btn btn-light" href="{% url 'movie:login' %}">Login</a>
+        </div>    
+        {% endif %}
+      </div>
+    </div>
+  </nav>

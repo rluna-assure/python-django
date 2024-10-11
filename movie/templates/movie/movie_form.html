@@ -1,0 +1,48 @@
+{% include "movie/partials/styles.html" %}
+{% include "movie/partials/navbar.html" %}
+
+<div class="container">
+    <h4>Crear Pelicula</h4>
+
+    <form action="{% url 'movie:movie_save' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            {% if error_message %} <p style="color:red">{{ error_message }}</p>{% endif %}
+
+            <label for="type">Genero</label>
+            <select class="form-control" name="genre" id="genre" required>
+                <option value="" selected>----</option>
+                {% if genre_list %}
+                    {% for genre in genre_list %}
+                        <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+            <label for="type">Reparto</label>
+            <select class="form-control" name="actors" multiple required>
+                {% for actor in actor_list %}
+                    <option value="{{ actor.id }}">{{ actor.name }},  {{ actor.last_name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="name">Nombre*: </label>
+            <input  class="form-control" type="text" name="name" id="name" value="{% if movie %} {{ movie.name}} {% endif %}" required>
+            <label for="sinopsis">Sinopsis*: </label>
+            <input class="form-control" type="text" name="synopsis" id="synopsis" value="{% if movie %} {{ movie.synopsis}} {% endif %}" required>
+            <label for="duration">Duration*: </label>
+            <input class="form-control" type="number" name="duration" id="duration" value="{% if movie %} {{ movie.duration}} {% endif %}" required>
+            <label for="year">Anio*: </label>
+            <input class="form-control" type="number" name="year" id="year" value="{% if movie %} {{ movie.year}} {% endif %}" required>
+            <label for="imdb">Imdb*: </label>
+            <input class="form-control" type="number" name="imdb" id="imdb" value="{% if movie %} {{ movie.imdb}} {% endif %}" required>
+            <label for="trailerLink">TrailerLink*: </label>
+            <input class="form-control" type="text" name="trailerLink" id="trailerLink" value="{% if movie %} {{ movie.trailerLink}} {% endif %}" required>
+        </fieldset>
+
+        <h3>Subir imágenes (mínimo 1):</h3>
+        <input class="form-control"  type="file" name="images" multiple required>
+
+        <input class="btn btn-primary" type="submit" value="Guardar">
+    </form>
+
+<a class="btn btn-danger" href="{% url 'movie:index' %}">Volver</a></div>

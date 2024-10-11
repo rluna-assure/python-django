@@ -1,0 +1,20 @@
+{% include "movie/partials/styles.html" %}
+{% include "movie/partials/navbar.html" %}
+
+<h4>Genero</h4>
+<a class="btn btn-primary" href="{% url 'movie:genre_form' %}">Agregar</a>
+
+<table class="table table-striped table-responsive">
+    <thead>
+        <tr>
+        <th scope="col">Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for genre in genres %}
+        <tr>
+        <td>{{ genre.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

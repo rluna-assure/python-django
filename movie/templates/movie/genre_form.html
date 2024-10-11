@@ -1,0 +1,15 @@
+{% include "movie/partials/styles.html" %}
+{% include "movie/partials/navbar.html" %}
+
+<h4> Genre form</h4>
+
+<form action="{% url 'movie:genre_save' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        {% if error_message %} <p>{{ error_message }}</p>{% endif %}
+        <label for="name">Nombre*: </label>
+        <input type="text" name="name" id="name" value="{% if genre %} {{ genre.name}} {% endif %}">
+    </fieldset>
+    <input class="btn btn-primary" type="submit" value="Guardar">
+</form>
+<a class="btn btn-danger" href="{% url 'movie:dashboard' %}">Volver</a>
